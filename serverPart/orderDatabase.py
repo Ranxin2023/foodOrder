@@ -1,4 +1,15 @@
+from enum import Enum
+
 import pymysql
+
+
+class OrderColumn(Enum):
+    orders_id = 0
+    big_mac_amount = 1
+    french_fries_amount = 2
+    big_mac_cost = 3
+    french_fries_cost = 4
+    total_cost = 5
 
 
 class OrderDatabase:
@@ -32,7 +43,9 @@ class OrderDatabase:
         big_mac_cost = float(args[3])
         total_cost = float(args[4])
 
-        cmd = "INSERT INTO  {} (bigmac_amount, french_fries_amount, big_mac_cost, french_fries_cost, total_cost) VALUES(%s, %s, %s, %s, %s)".format(
+        cmd = "INSERT INTO  {} \
+            (bigmac_amount, french_fries_amount, big_mac_cost, french_fries_cost, total_cost) \
+                VALUES(%s, %s, %s, %s, %s)".format(
             self.table_name
         )
         try:
@@ -50,5 +63,23 @@ class OrderDatabase:
             return True, None
         except pymysql.Error as e:
             print("Error sending order to the database:", e)
+            self.conn.rollback()
+            return False, str(e)
+
+    def get_order(self, args):
+        order_id = int(args[0])
+        cmd = "SELECT * from {} WHERE orders_id=%s".format(self.table_name)
+        try:
+            self._cursor.execute(cmd, order_id)
+            output = self._cursor.fetchone()
+            res = dict()
+            res["french fries quantity"] = output[OrderColumn.french_fries_amount.value]
+            res["big mac quantity"] = output[OrderColumn.big_mac_amount.value]
+            res["french fries cost"] = output[OrderColumn.french_fries_cost.value]
+            res["big mac cost"] = output[OrderColumn.big_mac_cost.value]
+            res["total cost"] = output[OrderColumn.total_cost.value]
+            return True, res
+        except pymysql.Error as e:
+            print("Error getting order to the database:", e)
             self.conn.rollback()
             return False, str(e)
