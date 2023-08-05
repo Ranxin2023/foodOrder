@@ -8,9 +8,10 @@ from orderDatabase import OrderDatabase
 
 class App:
     def __init__(self) -> None:
+        localhost="127.0.0.1"
         self.db_username = "root"
         self.db_password = "R@ndyli94041424"
-        self.db = OrderDatabase("127.0.0.1", self.db_username, self.db_password)
+        self.db = OrderDatabase(localhost, self.db_username, self.db_password)
 
     def calculate_cost(self, french_fries_count, big_mac_count):
         french_fries_price = 1.95
