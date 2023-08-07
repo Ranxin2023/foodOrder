@@ -16,6 +16,7 @@
         tools:targetApi="31">
         <activity android:name=".OrderFood"> </activity>
         <activity android:name=".ViewRecipe"></activity>
+        <activity android:name=".ViewMenu"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">

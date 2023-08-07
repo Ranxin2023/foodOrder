@@ -21,12 +21,16 @@ class MainActivity : AppCompatActivity() {
             if (actionId == KeyEvent.ACTION_DOWN || actionId == KeyEvent.KEYCODE_ENTER) {
                 // Perform the action you want when the user presses the "Enter" key
                 // For example, you can call a function to process the input.
-                if(menuInput.text.toString().lowercase()=="view"||menuInput.text.toString().lowercase()=="view recipe"){
+                if(menuInput.text.toString().lowercase()=="recipe"||menuInput.text.toString().lowercase()=="view recipe"){
                     val intent=Intent(this, ViewRecipe::class.java)
                     startActivity(intent)
                 }
                 if(menuInput.text.toString().lowercase()=="order"||menuInput.text.toString().lowercase()=="order food"){
                     val intent=Intent(this, OrderFood::class.java)
+                    startActivity(intent)
+                }
+                if(menuInput.text.toString().lowercase()=="menu"||menuInput.text.toString().lowercase()=="view menu"){
+                    val intent =Intent(this, ViewMenu::class.java)
                     startActivity(intent)
                 }
                 true // Return 'true' to indicate that the event has been handled.
